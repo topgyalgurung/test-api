@@ -1,5 +1,6 @@
 process.env.NODE_ENV = "test";
 
+const Product = require("../models/product");
 const chai = require("chai");
 const expect = chai.expect;
 
@@ -42,9 +43,27 @@ describe("/First test collection", () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a("array");
-        res.body.length.be.eql(0);
+        res.body.length.should.be.eql(0);
+        done();
       });
   });
+
+  //save a product
+  it("should POST a valid product ", (done) => {
+    // create a product
+    let product = {
+      name: "",
+    };
+    chai
+      .request(server)
+      .post("/api/products")
+      .end((err, res) => {
+        res.should.have.status(201);
+
+        done();
+      });
+  });
+
   it("should test two values ... ", () => {
     let expectedVal = 10;
     let actualVal = 10;
